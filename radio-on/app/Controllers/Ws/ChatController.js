@@ -1,11 +1,23 @@
 'use strict'
-const Event = use('App/Models/Event')
-class PresenceController {
-  async update({ params, response }) {
-    const event = await Event.find(params.eventId)
-    event.people_count += 1
-    event.save()
-    response.route('home.index')
+
+class ChatController {
+  constructor ({ socket ,request}) {
+    this.socket = socket
+    this.request = request
   }
+  onMessage(data){
+    console.log(this.socket.id)
+    console.log(data)
+   
+  }
+
+  onMessage (message) {
+    this.socket.broadcastToAll('message', message)
+  }
+
+ 
 }
-module.exports = PresenceController
+  
+
+
+module.exports = ChatController
